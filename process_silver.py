@@ -1,45 +1,36 @@
-import json
-import os
-import glob
+import json, os, glob
 from datetime import datetime
 
 def process_latest_bronze_data():
     bronze_files = glob.glob("bronze/*.json")
-    if not bronze_files:
-        return
+    if not bronze_files: return
         
     latest_file = max(bronze_files, key=os.path.getctime)
-    print(f"Reading raw data from: {latest_file}")
     
     with open(latest_file, "r") as file:
         raw_data = json.load(file)
         
-    # NEW: Check if the API actually gave us the 'current' data
-    if "current" not in raw_data:
-        print(f"Bad API response! Skipping. API said: {raw_data}")
+    if "air_quality" not in raw_data or "weather" not in raw_data:
+        print("Bad API response! Skipping.")
         return
         
-    current_data = raw_data["current"]
+    aq = raw_data["air_quality"]
+    wx = raw_data["weather"]
     
     cleaned_record = {
-        "timestamp": current_data.get("time"),
-        "pm10_level": current_data.get("pm10"),
-        "pm25_level": current_data.get("pm2_5"),
-        "location": "Bengaluru"
+        "timestamp": raw_data["raw_timestamp"],
+        "location": "Bengaluru",
+        "temperature_c": wx.get("temperature_2m"),
+        "humidity_pct": wx.get("relative_humidity_2m"),
+        "official_aqi": aq.get("us_aqi"),
+        "pm10_level": aq.get("pm10"),
+        "pm25_level": aq.get("pm2_5")
     }
     
-    # NEW: Ensure we actually got a timestamp before saving
-    if cleaned_record["timestamp"] is None:
-        print("Data is missing a timestamp. Skipping this record.")
-        return
-        
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    silver_filename = f"silver/clean_air_{timestamp}.json"
-    
+    silver_filename = f"silver/clean_env_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(silver_filename, "w") as file:
         json.dump(cleaned_record, file, indent=4)
-        
-    print(f"Success! Cleaned data saved to {silver_filename}")
+    print(f"Success! Silver data saved.")
 
 if __name__ == "__main__":
     process_latest_bronze_data()

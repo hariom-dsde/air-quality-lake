@@ -1,4 +1,0 @@
-{
-    "error": true,
-    "reason": "Data corrupted at path ''. Cannot initialize Float from invalid String value 77.5946\u00a4t=pm10."
-}
