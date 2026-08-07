@@ -1,0 +1,44 @@
+name: Air Quality Data Pipeline
+
+# This tells GitHub WHEN to run the script
+on:
+  schedule:
+    - cron: '0 */6 * * *' # This means "Run every 6 hours"
+  workflow_dispatch: # This allows us to click a "Run" button manually
+
+jobs:
+  update-data-lake:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed so the bot can save files back to your repo
+
+    steps:
+      # 1. Get the code from your repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Install Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 3. Install the 'requests' library we used in our ingest script
+      - name: Install dependencies
+        run: pip install requests
+
+      # 4. Run our 3 Data Lake scripts in order!
+      - name: Run Data Lake Pipeline
+        run: |
+          python ingest_bronze.py
+          python process_silver.py
+          python curate_gold.py
+
+      # 5. Save the new data files back to GitHub
+      - name: Commit and Push new data
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add bronze/ silver/ gold/
+          git commit -m "Automated data update [skip ci]" || exit 0
+          git push
