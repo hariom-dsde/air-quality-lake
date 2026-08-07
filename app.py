@@ -13,7 +13,7 @@ st.markdown("Automated Data Lake Pipeline | Updated every 6 hours")
 st.divider()
 
 # --- DATA LOADING ---
-@st.cache_data
+@st.cache_data(ttl=300)
 def load_data():
     try:
         df = pd.read_csv("gold/master_air_quality.csv")
