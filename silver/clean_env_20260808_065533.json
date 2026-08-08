@@ -1,0 +1,9 @@
+{
+    "timestamp": "2026-08-08T06:55:33.391292",
+    "location": "Bengaluru",
+    "temperature_c": 26.8,
+    "humidity_pct": 64,
+    "official_aqi": 28,
+    "pm10_level": 8.6,
+    "pm25_level": 4.8
+}
