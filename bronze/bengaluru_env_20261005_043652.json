@@ -1,0 +1,16 @@
+{
+    "raw_timestamp": "2026-10-05T04:36:52.929374",
+    "air_quality": {
+        "time": "2026-10-05T04:00",
+        "interval": 3600,
+        "us_aqi": 91,
+        "pm10": 30.9,
+        "pm2_5": 27.4
+    },
+    "weather": {
+        "time": "2026-10-05T04:30",
+        "interval": 900,
+        "temperature_2m": 27.2,
+        "relative_humidity_2m": 61
+    }
+}
