@@ -1,0 +1,9 @@
+{
+    "timestamp": "2026-10-19T03:42:54.321270",
+    "location": "Bengaluru",
+    "temperature_c": 24.1,
+    "humidity_pct": 76,
+    "official_aqi": 62,
+    "pm10_level": 12.3,
+    "pm25_level": 12.3
+}
