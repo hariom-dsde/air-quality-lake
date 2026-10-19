@@ -272,3 +272,4 @@ timestamp,location,temperature_c,humidity_pct,official_aqi,pm10_level,pm25_level
 2026-10-18T15:32:03.648936,Bengaluru,22.8,86,59,39.5,38.8
 2026-10-18T20:14:32.223501,Bengaluru,21.1,91,66,28.1,27.8
 2026-10-19T03:42:54.321270,Bengaluru,24.1,76,62,12.3,12.3
+2026-10-19T12:27:03.399107,Bengaluru,25.6,71,56,15.3,14.8
