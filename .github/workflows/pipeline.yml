@@ -1,5 +1,10 @@
 name: Air Quality Data Pipeline
 
+# Prevents two pipelines from running at the exact same time
+concurrency:
+  group: "data-lake-update"
+  cancel-in-progress: true
+
 # This tells GitHub WHEN to run the script
 on:
   schedule:
